@@ -1,0 +1,4 @@
+#images
+*.png
+#compiled source code
+*.pyc
