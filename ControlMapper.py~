@@ -1,0 +1,93 @@
+from EventManager import *
+
+from XboxContRef import *
+from KeyboardMouseRef import *
+
+DIRECTION_UP = 0
+DIRECTION_DOWN = 1
+DIRECTION_LEFT = 2
+DIRECTION_RIGHT = 3
+
+class ControlMapper:            
+	"""ControlMapper takes input controller events and uses them to
+	control the model, by sending Requests
+	"""
+	def __init__(self, evManager):
+		self.evManager = evManager
+		
+		#List every event for which this object listens
+		self.evManager.registerListener(self,gameStateEvents)
+		
+	def notify(self, event):
+		if event.is_a(gameStateEvents):
+			self.gameState = event
+
+		elif isinstance(self.gameState, GameStatePrepareEvent):
+			if event.is_a(KeyboardInputEvent):
+				pass
+			elif event.is_a(MouseInputEvent):
+				pass
+			elif event.is_a(GameContInputEvent):
+				pass
+
+		elif isinstance(self.gameState, GameStateMainMenuEvent):
+			if event.is_a(KeyboardInputEvent):
+				pass
+			elif event.is_a(MouseInputEvent):
+				pass
+			elif event.is_a(GameContInputEvent):
+				pass	
+			
+		elif isinstance(self.gameState, GameStateGetControllersEvent):
+			if event.is_a(KeyboardInputEvent):
+				pass
+			elif event.is_a(MouseInputEvent):
+				pass
+			elif event.is_a(GameContInputEvent):
+				pass #Create Player()s here. send them to Game an Event
+			
+		elif isinstance(self.gameState, GameStatePlayEvent):
+			if event.is_a(KeyboardInputEvent):
+				direction = None
+				if (event.value == 1):
+					#print("event button :", event.button, "    dict: ", )
+					if (event.button == keyboardMouseRef.PygameString_IntASCII["K_UP"]):
+						direction = DIRECTION_UP
+					elif (event.button == keyboardMouseRef.PygameString_IntASCII["K_DOWN"]):
+						direction = DIRECTION_DOWN
+					elif (event.button == keyboardMouseRef.PygameString_IntASCII["K_LEFT"]):
+						direction = DIRECTION_LEFT
+					elif (event.button == keyboardMouseRef.PygameString_IntASCII["K_RIGHT"]):
+						direction = DIRECTION_RIGHT
+					
+				if direction in [0,1,2,3]:
+					self.evManager.post(CharactorMoveRequest(direction))
+	
+			elif event.is_a(MouseInputEvent):
+				pass
+				#self.evManager.post(   )
+				
+		elif isinstance(self.gameState, GameStatePauseEvent):
+			if event.is_a(KeyboardInputEvent):
+				pass
+			elif event.is_a(MouseInputEvent):
+				pass
+			elif event.is_a(GameContInputEvent):
+				pass #Create Player()s here. send them to Game an Event
+			
+			elif event.is_a(GameContInputEvent):
+				direction = None
+				if event.joy == 0 and event.button == xboxContRef.xboxString_xboxInt["DPAD"]:
+					if (event.value[1]== 1):
+						direction = DIRECTION_UP
+					elif (event.value[1]== -1):
+						direction = DIRECTION_DOWN
+					elif (event.value[0]== -1):
+						direction = DIRECTION_LEFT
+					elif (event.value[0]== 1):
+						direction = DIRECTION_RIGHT
+					
+				if direction in [0,1,2,3]:
+					self.evManager.post(CharactorMoveRequest(direction))
+
+			
