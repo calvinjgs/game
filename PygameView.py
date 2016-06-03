@@ -28,6 +28,7 @@ class PygameView:
 
 
 	#----------------------------------------------------------------------
+  #This is where we paint the screen.
 	def showMap(self, gameMap):
 		# clear the screen first
 		self.background.fill((0,0,0))
