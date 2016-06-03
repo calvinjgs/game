@@ -23,7 +23,7 @@ class KeyboardMouseGameContController:
 			# except pygame.error as message:
 				# raise ErrorType(message)
 			newGamepad.init()
-			gamepads =+ [newGamepad]
+			gamepads += [newGamepad]
 			
 		# if gamepads:
 			# evManager.post()
