@@ -3,7 +3,7 @@ import pygame
 from pygame.locals import *
 import sys
 
-from KeyboardController import *
+#from KeyboardController import *
 
 
 def Debug( msg ):
