@@ -38,22 +38,22 @@ class GameStartedEvent(Event):
 		self.name = "Game Started Event"
 		self.game = game
 
-class CharacterMoveRequest(Event):
+class CharactorMoveRequest(Event):
 	def __init__(self, direction):
-		self.name = "Character Move Request"
+		self.name = "Charactor Move Request"
 		self.direction = direction
 
-class CharacterPlaceEvent(Event):
-	"""this event occurs when a Character is *placed* in a sector,
+class CharactorPlaceEvent(Event):
+	"""this event occurs when a Charactor is *placed* in a sector,
 	ie it doesn't move there from an adjacent sector."""
-	def __init__(self, Character):
-		self.name = "Character Placement Event"
-		self.Character = Character
+	def __init__(self, charactor):
+		self.name = "Charactor Placement Event"
+		self.charactor = charactor
 
-class CharacterMoveEvent(Event):
-	def __init__(self, Character):
-		self.name = "Character Move Event"
-		self.Character = Character
+class CharactorMoveEvent(Event):
+	def __init__(self, charactor):
+		self.name = "Charactor Move Event"
+		self.charactor = charactor
 
 #------------------------------------------------------------------------------
 class EventManager:
@@ -108,19 +108,19 @@ class KeyboardController:
 				elif event.type == KEYDOWN \
 				     and event.key == K_UP:
 					direction = DIRECTION_UP
-					ev = CharacterMoveRequest(direction)
+					ev = CharactorMoveRequest(direction)
 				elif event.type == KEYDOWN \
 				     and event.key == K_DOWN:
 					direction = DIRECTION_DOWN
-					ev = CharacterMoveRequest(direction)
+					ev = CharactorMoveRequest(direction)
 				elif event.type == KEYDOWN \
 				     and event.key == K_LEFT:
 					direction = DIRECTION_LEFT
-					ev = CharacterMoveRequest(direction)
+					ev = CharactorMoveRequest(direction)
 				elif event.type == KEYDOWN \
 				     and event.key == K_RIGHT:
 					direction = DIRECTION_RIGHT
-					ev = CharacterMoveRequest(direction)
+					ev = CharactorMoveRequest(direction)
 
 				if ev:
 					self.evManager.Post( ev )
@@ -158,16 +158,16 @@ class SectorSprite(pygame.sprite.Sprite):
 		self.sector = sector
 
 #------------------------------------------------------------------------------
-class CharacterSprite(pygame.sprite.Sprite):
+class CharactorSprite(pygame.sprite.Sprite):
 	def __init__(self, group=None):
 		pygame.sprite.Sprite.__init__(self, group)
 
-		CharacterSurf = pygame.Surface( (64,64) )
-		CharacterSurf = CharacterSurf.convert_alpha()
-		CharacterSurf.fill((0,0,0,0)) #make transparent
-		pygame.draw.circle( CharacterSurf, (255,0,0), (32,32), 32 )
-		self.image = CharacterSurf
-		self.rect  = CharacterSurf.get_rect()
+		charactorSurf = pygame.Surface( (64,64) )
+		charactorSurf = charactorSurf.convert_alpha()
+		charactorSurf.fill((0,0,0,0)) #make transparent
+		pygame.draw.circle( charactorSurf, (255,0,0), (32,32), 32 )
+		self.image = charactorSurf
+		self.rect  = charactorSurf.get_rect()
 
 		self.moveTo = None
 
@@ -224,23 +224,23 @@ class PygameView:
 			newSprite = None
 
 	#----------------------------------------------------------------------
-	def ShowCharacter(self, Character):
-		sector = Character.sector
-		CharacterSprite = CharacterSprite( self.frontSprites )
+	def ShowCharactor(self, charactor):
+		sector = charactor.sector
+		charactorSprite = CharactorSprite( self.frontSprites )
 		sectorSprite = self.GetSectorSprite( sector )
-		CharacterSprite.rect.center = sectorSprite.rect.center
+		charactorSprite.rect.center = sectorSprite.rect.center
 
 	#----------------------------------------------------------------------
-	def MoveCharacter(self, Character):
-		CharacterSprite = self.GetCharacterSprite( Character )
+	def MoveCharactor(self, charactor):
+		charactorSprite = self.GetCharactorSprite( charactor )
 
-		sector = Character.sector
+		sector = charactor.sector
 		sectorSprite = self.GetSectorSprite( sector )
 
-		CharacterSprite.moveTo = sectorSprite.rect.center
+		charactorSprite.moveTo = sectorSprite.rect.center
 
 	#----------------------------------------------------------------------
-	def GetCharacterSprite(self, Character):
+	def GetCharactorSprite(self, charactor):
 		#there will be only one
 		for s in self.frontSprites:
 			return s
@@ -274,11 +274,11 @@ class PygameView:
 			gameMap = event.map
 			self.ShowMap( gameMap )
 
-		elif isinstance( event, CharacterPlaceEvent ):
-			self.ShowCharacter( event.Character )
+		elif isinstance( event, CharactorPlaceEvent ):
+			self.ShowCharactor( event.charactor )
 
-		elif isinstance( event, CharacterMoveEvent ):
-			self.MoveCharacter( event.Character )
+		elif isinstance( event, CharactorMoveEvent ):
+			self.MoveCharactor( event.charactor )
 
 
 #------------------------------------------------------------------------------
@@ -321,7 +321,7 @@ class Player(object):
 		self.name = ""
 		self.evManager.RegisterListener( self )
 
-		self.Characters = [ Character(evManager) ]
+		self.charactors = [ Charactor(evManager) ]
 
 	#----------------------------------------------------------------------
 	def __str__(self):
@@ -333,7 +333,7 @@ class Player(object):
 		pass
 
 #------------------------------------------------------------------------------
-class Character:
+class Charactor:
 	"""..."""
 
 	STATE_INACTIVE = 0
@@ -344,29 +344,29 @@ class Character:
 		self.evManager.RegisterListener( self )
 
 		self.sector = None
-		self.state = Character.STATE_INACTIVE
+		self.state = Charactor.STATE_INACTIVE
 
 	#----------------------------------------------------------------------
 	def __str__(self):
-		return '<Character %s>' % id(self)
+		return '<Charactor %s>' % id(self)
 
 	#----------------------------------------------------------------------
 	def Move(self, direction):
-		if self.state == Character.STATE_INACTIVE:
+		if self.state == Charactor.STATE_INACTIVE:
 			return
 
 		if self.sector.MovePossible( direction ):
 			newSector = self.sector.neighbors[direction]
 			self.sector = newSector
-			ev = CharacterMoveEvent( self )
+			ev = CharactorMoveEvent( self )
 			self.evManager.Post( ev )
 
 	#----------------------------------------------------------------------
 	def Place(self, sector):
 		self.sector = sector
-		self.state = Character.STATE_ACTIVE
+		self.state = Charactor.STATE_ACTIVE
 
-		ev = CharacterPlaceEvent( self )
+		ev = CharactorPlaceEvent( self )
 		self.evManager.Post( ev )
 
 	#----------------------------------------------------------------------
@@ -375,7 +375,7 @@ class Character:
 			gameMap = event.game.map
 			self.Place( gameMap.sectors[gameMap.startSectorIndex] )
 
-		elif isinstance( event, CharacterMoveRequest ):
+		elif isinstance( event, CharactorMoveRequest ):
 			self.Move( event.direction )
 
 #------------------------------------------------------------------------------
