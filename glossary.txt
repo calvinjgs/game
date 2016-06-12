@@ -4,11 +4,10 @@ model:
 A two dimensional space where positions are represented by real numbers, (x,y). Contains a list of all model_objects in the model.
 
 model_object:
-Represents any physical object in the model. They don't necessarily have to represent material objects, at the very least must have a position in 2-space for the game_model.
+Represents any physical object in the model. They don't necessarily have to represent material objects, at the very least must have a position in 2-space for the model.
 
 model_object_obstacle:
 A model_object that does not need to move.
-
 
 view_object:
 The view implementation of a model_object. Contains a spritesheet and the information to display the model_object's various states.
