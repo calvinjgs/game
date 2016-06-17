@@ -9,6 +9,12 @@ Represents any physical object in the model. They don't necessarily have to repr
 model_object_obstacle:
 A model_object that does not need to move.
 
+model_object_mobile:
+A model_object that has velocity. Likely in the form of components in x and y directions. May also have momentum, and acceleration, but only to make changes in velocity appear smooth.
+
+view:
+The view implementation of a model. This is responsible for displaying view_objects to the display.
+
 view_object:
 The view implementation of a model_object. Contains a spritesheet and the information to display the model_object's various states.
 
