@@ -33,7 +33,7 @@ class MapBuiltEvent(Event):
 		self.name = "Map Finished Building Event"
 		self.levelMap = levelMap
 #	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-		
-class CreateCharactorViewEntityEvent(Event):
+class CreateCharactorSpriteEvent(Event):
 	def __init__(self, entity, playerNumber):
 		self.name = "Charactor Placement Event"
 		self.entity = entity
@@ -118,7 +118,7 @@ class EventManager:
 			QuitEvent,
 			MapBuiltEvent,
 
-			CreateCharactorViewEntityEvent,
+			CreateCharactorSpriteEvent,
 			CharactorMoveRequest,
 			CharactorMoveEvent,
 			SpriteStateChangeEvent,

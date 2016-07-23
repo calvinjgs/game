@@ -2,11 +2,11 @@ import pygame
 from pygame.locals import *
 
 from EventManager import *
+from EventManager import *
 from ModelEntity import *
-from ViewEntity import *
 
 #move similar methods into an "Entity" superclass, and ViewEntity super class
-class CharactorModelEntity(ModelEntity):
+class <NAME>ModelEntity(ModelEntity):
 	STATE_INACTIVE = 0
 	STATE_ACTIVE = 1
 
@@ -14,13 +14,11 @@ class CharactorModelEntity(ModelEntity):
 		self.evManager = evManager
 		
 		#List every event for which this object listens
-		self.evManager.registerListener(self,[GameStatePlayEvent,CharactorMoveRequest])
-		self.playerNumber = playerNumber
-		self.sector = None
-		self.state = CharactorModelEntity.STATE_INACTIVE
-
+		self.evManager.registerListener(self,[])#GameStatePlayEvent
+		self.evManager.post(SpriteStateChangeEvent(self, '<INITIALSTATE>'))
+		
 	def __str__(self):
-		return '<Charactor %s>' % id(self)
+		return '<SOMESPRITE %s>' % id(self)
 
 	def move(self, direction):
 		if self.state == CharactorModelEntity.STATE_INACTIVE:
@@ -48,7 +46,7 @@ class CharactorModelEntity(ModelEntity):
 			self.move(event.direction)
 
 #	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	Charactor Sprite
-class CharactorViewEntity(ViewEntity):
+class <NAME>ViewEntity(ViewEntity):
 	def __init__(self, evManager, entity, playerNumber, group=None,):
 		self.evManager = evManager
 		self.entity = entity

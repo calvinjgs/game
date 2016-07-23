@@ -2,7 +2,7 @@ import pygame
 from pygame.locals import *
 
 from EventManager import *
-from Charactor import CharactorModelEntity
+from Charactor import CharactorEntity
 
 class Player(object):
 	def __init__(self, evManager, playerNumber):
@@ -18,7 +18,7 @@ class Player(object):
 		return '<Player %s %s>' % (self.name, id(self))
 
 	def makeCharactor(self):
-		self.charactors.append(CharactorModelEntity(self.evManager, self.playerNumber))
+		self.charactors.append(CharactorEntity(self.evManager, self.playerNumber))
 		
 	def setController(self, controller):
 		pass

@@ -2,7 +2,7 @@ import pygame
 from pygame.locals import *
 
 from EventManager import *
-from Charactor import CharactorViewEntity
+from Charactor import CharactorSprite
 from Sprite import *
 
 class PygameView:
@@ -10,7 +10,7 @@ class PygameView:
 		self.evManager = evManager
 		
 		#List every event for which this object listens
-		self.evManager.registerListener(self,[TickEvent,MapBuiltEvent,CreateCharactorViewEntityEvent,CharactorMoveEvent])
+		self.evManager.registerListener(self,[TickEvent,MapBuiltEvent,CreateCharactorSpriteEvent,CharactorMoveEvent])
 		pygame.init()
 		self.window = pygame.display.set_mode((424,440))
 		pygame.display.set_caption('Example Game')
@@ -55,13 +55,13 @@ class PygameView:
 	#----------------------------------------------------------------------
 	def createCharactorSprite(self, entity, playerNumber):
 		sector = entity.sector
-		charactorViewEntity = CharactorViewEntity(self.evManager, entity, playerNumber, self.frontSprites)
+		charactorSprite = CharactorSprite(self.evManager, entity, playerNumber, self.frontSprites)
 		sectorSprite = self.getSectorSprite( sector )
-		charactorViewEntity.rect.center = sectorSprite.rect.center
+		charactorSprite.rect.center = sectorSprite.rect.center
 
 	#----------------------------------------------------------------------
 	def moveCharactor(self, charactor):
-		charactorViewEntity = self.getCharactorViewEntity(charactor)
+		charactorSprite = self.getCharactorSprite(charactor)
 
 		sector = charactor.sector
 		sectorSprite = self.getSectorSprite(sector)
@@ -69,7 +69,7 @@ class PygameView:
 		charactorSprite.moveTo = sectorSprite.rect.center
 
 	#----------------------------------------------------------------------
-	def getCharactorViewEntity(self, charactor):
+	def getCharactorSprite(self, charactor):
 		#there will be only one
 		for s in self.frontSprites:
 			return s
@@ -102,7 +102,7 @@ class PygameView:
 			levelMap = event.levelMap
 			self.showMap(levelMap)
 
-		elif event.is_a(CreateCharactorViewEntityEvent):
+		elif event.is_a(CreateCharactorSpriteEvent):
 			self.createCharactorSprite(event.entity, event.playerNumber)
 
 		elif event.is_a(CharactorMoveEvent):
