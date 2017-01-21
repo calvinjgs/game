@@ -28,13 +28,13 @@ class TickEvent(Event):
 class QuitEvent(Event):
     listeners = WeakKeyDictionary()
     def __init__(self):
-		self.name = "Program Quit Event"
+        self.name = "Program Quit Event"
 
 class MapBuiltEvent(Event):
     listeners = WeakKeyDictionary()
     def __init__(self, levelMap):
-		self.name = "Map Finished Building Event"
-		self.levelMap = levelMap
+        self.name = "Map Finished Building Event"
+        self.levelMap = levelMap
 #	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-		
 class CreateCharactorViewEntityEvent(Event):
     listeners = WeakKeyDictionary()
@@ -110,24 +110,24 @@ inputEvents = [
 class GameStatePrepareEvent(Event):
     listeners = WeakKeyDictionary()
     def __init__(self):
-		self.name = 'Game State Prepare Event'
+        self.name = 'Game State Prepare Event'
 class GameStateOpenEvent(Event):
     listeners = WeakKeyDictionary()
     def __init__(self):
-		self.name = 'Game State Open Event'
+        self.name = 'Game State Open Event'
 class GameStateMainMenuEvent(Event):
     listeners = WeakKeyDictionary()
     def __init__(self):
-		self.name = 'Game State Main Menu Event'
+        self.name = 'Game State Main Menu Event'
 class GameStateGetControllersEvent(Event):
     listeners = WeakKeyDictionary()
     def __init__(self):
-		self.name = 'Game State Get Controllers Event'
+        self.name = 'Game State Get Controllers Event'
 class GameStatePlayEvent(Event):
     listeners = WeakKeyDictionary()
     def __init__(self, levelMap):
-		self.name = 'Game State Play Event'
-		self.levelMap = levelMap
+        self.name = 'Game State Play Event'
+        self.levelMap = levelMap
 class GameStatePauseEvent(Event):
     listeners = WeakKeyDictionary()
     def __init__(self):
@@ -147,32 +147,32 @@ class EventManager:
     def __init__(self):
         pass
 		#self.eventQueue = [] This was included in the original MVC tutorial. I don't see what it does..
-	#----------------------------------------------------------------------
+    #----------------------------------------------------------------------
     def registerListener(self, listener, registeringObjectsEventTypes):
         for re in registeringObjectsEventTypes:
-					re.listeners[listener] = 1
+            re.listeners[listener] = 1
 
-	#----------------------------------------------------------------------
-  def unregisterListener(self, listener, registerEventTypes):
-     for re in registerEventTypes:
-         if listener in re.listeners:
-             del re.listeners[ listener ]
+    #----------------------------------------------------------------------
+    def unregisterListener(self, listener, registerEventTypes):
+        for re in registerEventTypes:
+            if listener in re.listeners:
+                del re.listeners[ listener ]
 
-	#----------------------------------------------------------------------
-  def post(self, event):
-    '''
-	  -	-	-	-	-	DEBUGING SECTION	-	-	-	-	-	-
-	 '''
-		#if not event.is_a(TickEvent):
+    #----------------------------------------------------------------------
+    def post(self, event):
+        '''
+        -	-	-	-	-	DEBUGING SECTION	-	-	-	-	-	-
+        '''
+        #if not event.is_a(TickEvent):
 
-  if not event.is_a(TickEvent) and not event.is_a(inputEvents):
-				debug("     Message: " + event.name)
+        if not event.is_a(TickEvent) and not event.is_a(inputEvents):
+            debug("     Message: " + event.name)
 		#if event.is_a(GameContInputEvent):
 			#print(event.name, "     Player: ",event.joy," ",xboxContRef.xboxInt_moduleString[event.button],": ", event.value)
-  '''
-	-	-	-	-	-	NOTIFY()	-	-	-	-	-	-	-	-
-	'''
-		if hasattr(event, 'listeners'):
-			for listener in event.listeners:
-				#NOTE: If the weakref has died, it will be automatically removed, so we don't have to worry about it.
-				listener.notify(event)
+        '''
+        -	-	-	-	-	NOTIFY()	-	-	-	-	-	-	-	-
+        '''
+        if hasattr(event, 'listeners'):
+            for listener in event.listeners:
+                #NOTE: If the weakref has died, it will be automatically removed, so we don't have to worry about it.
+                listener.notify(event)

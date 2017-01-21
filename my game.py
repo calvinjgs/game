@@ -23,4 +23,5 @@ def main():
 	spinner.run()
 
 if __name__ == "__main__":
-	main()
+    print("my game.py main function")
+    main()
