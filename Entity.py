@@ -1,8 +1,15 @@
 import pygame
 from pygame.locals import *
-
+from EventManager import *
 from SpriteSheet import *
 
+
+
+#	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	Model Entity
+class ModelEntity:
+	pass
+
+#	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	View Entity
 class ViewEntity(pygame.sprite.Sprite):
 #Parent class for sprites
 	def __init__(self):
@@ -25,7 +32,7 @@ class ViewEntity(pygame.sprite.Sprite):
 		#...
 		return
 
-#	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	SpriteState
+#	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	SpriteState
 class SpriteState(object):
 	'''
 	Contains and iterates over a strip of images

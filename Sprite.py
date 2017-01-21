@@ -3,7 +3,7 @@ from pygame.locals import *
 
 from EventManager import *
 from SpriteSheet import *
-from ViewEntity import *
+from Entity import *
 #	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	SpriteState
 
 #	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	Sector Sprite

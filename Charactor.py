@@ -2,8 +2,7 @@ import pygame
 from pygame.locals import *
 
 from EventManager import *
-from ModelEntity import *
-from ViewEntity import *
+from Entity import *
 
 #move similar methods into an "Entity" superclass, and ViewEntity super class
 class CharactorModelEntity(ModelEntity):

@@ -3,7 +3,7 @@ Glossary of Terms:
 model:
 A two dimensional space where positions are represented by real numbers, (x,y). Contains a list of all model_objects in the model.
 
-model_object:
+model_entity:
 Represents any physical object in the model. They don't necessarily have to represent material objects, at the very least must have a position in 2-space for the model.
 
 model_object_obstacle:
@@ -15,8 +15,8 @@ A model_object that has velocity. Likely in the form of components in x and y di
 view:
 The view implementation of a model. This is responsible for displaying view_objects to the display.
 
-view_object:
-The view implementation of a model_object. Contains a spritesheet and the information to display the model_object's various states.
+view_entity:
+The view implementation of a model_entity. Contains a spritesheet and the information to display the model_object's various states.
 
 Note:
 all view_objects are coupled to a model_object, but not all model_objects are coupled to a view_object.
