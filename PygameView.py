@@ -66,7 +66,7 @@ class PygameView:
 		sector = charactor.sector
 		sectorSprite = self.getSectorSprite(sector)
 
-		charactorSprite.moveTo = sectorSprite.rect.center
+		charactorViewEntity.moveTo = sectorSprite.rect.center
 
 	#----------------------------------------------------------------------
 	def getCharactorViewEntity(self, charactor):

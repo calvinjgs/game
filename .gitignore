@@ -2,3 +2,4 @@
 *.png
 #compiled source code
 *.pyc
+*.py~
