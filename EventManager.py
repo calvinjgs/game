@@ -2,7 +2,7 @@ import pygame
 from pygame.locals import *
 
 from XboxContRef import *
-
+from weakref import WeakKeyDictionary
 #TODO Make this an error logging object or console
 def debug(msg):
 	print(msg)
@@ -21,54 +21,81 @@ class Event(object):
 				return True
 
 class TickEvent(Event):
+	listeners = WeakKeyDictionary()
 	def __init__(self):
 		self.name = "CPU Tick Event"
 
 class QuitEvent(Event):
-	def __init__(self):
+    listeners = WeakKeyDictionary()
+    def __init__(self):
 		self.name = "Program Quit Event"
 
 class MapBuiltEvent(Event):
-	def __init__(self, levelMap):
+    listeners = WeakKeyDictionary()
+    def __init__(self, levelMap):
 		self.name = "Map Finished Building Event"
 		self.levelMap = levelMap
 #	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-		
 class CreateCharactorViewEntityEvent(Event):
-	def __init__(self, entity, playerNumber):
-		self.name = "Charactor Placement Event"
-		self.entity = entity
-		self.playerNumber = playerNumber
+    listeners = WeakKeyDictionary()
+    def __init__(self, entity, playerNumber):
+        self.name = "Charactor Placement Event"
+        self.entity = entity
+        self.playerNumber = playerNumber
 
 class CharactorMoveRequest(Event):
-	def __init__(self, direction):
-		self.name = "Charactor Move Request"
-		self.direction = direction
+    listeners = WeakKeyDictionary()
+    def __init__(self, direction):
+        self.name = "Charactor Move Request"
+        self.direction = direction
 
 class CharactorMoveEvent(Event):
-	def __init__(self, entity):
-		self.name = "Charactor Move Event"
-		self.entity = entity
+    listeners = WeakKeyDictionary()
+    def __init__(self, entity):
+        self.name = "Charactor Move Event"
+        self.entity = entity
 
 class SpriteStateChangeEvent(Event):
-	def __init__(self, entity, state):
-		self.name = "Sprite State Change Event"
-		self.entity = entity
-		self.state = state
+    listeners = WeakKeyDictionary()
+    def __init__(self, entity, state):
+        self.name = "Sprite State Change Event"
+        self.entity = entity
+        self.state = state
+
+class ModelObjectMoveRequest(Event):
+    listeners = WeakKeyDictionary()
+    def __init__(self, obj, from_pos, to_pos):
+        self.name = "Model Object Move Request"
+        self.m_obj = m_obj
+        self.from_pos
+        self.to_pos
+
+class ModelObjectMoveEvent(Event):
+    listeners = WeakKeyDictionary()
+    def __init__(self, obj, from_pos, to_pos):
+        self.name = "Model Object Move Event"
+        self.m_obj = m_obj
+        self.from_pos
+        self.to_pos
+
 
 #	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	INPUTS
 class KeyboardInputEvent(Event):
-	def __init__(self, button, value):
-		self.name = "Keyboard Input Event"
-		self.button = button		
-		self.value = value
+    listeners = WeakKeyDictionary()
+    def __init__(self, button, value):
+        self.name = "Keyboard Input Event"
+        self.button = button		
+        self.value = value
 
 class MouseInputEvent(Event):
-	def __init__(self, button, value):
-		self.name = "Mouse Input Event"
-		self.button = button
-		self.value = value	
+    listeners = WeakKeyDictionary()
+    def __init__(self, button, value):
+        self.name = "Mouse Input Event"
+        self.button = button
+        self.value = value	
 
 class GameContInputEvent(Event):
+	listeners = WeakKeyDictionary()
 	def __init__(self, gamepadNumber, button, value):
 		self.name = "Game Controller Input Event"
 		self.gamepadNumber = gamepadNumber
@@ -81,24 +108,30 @@ inputEvents = [
 ]
 #	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	GAME STATES
 class GameStatePrepareEvent(Event):
-	def __init__(self):
+    listeners = WeakKeyDictionary()
+    def __init__(self):
 		self.name = 'Game State Prepare Event'
 class GameStateOpenEvent(Event):
-	def __init__(self):
+    listeners = WeakKeyDictionary()
+    def __init__(self):
 		self.name = 'Game State Open Event'
 class GameStateMainMenuEvent(Event):
-	def __init__(self):
+    listeners = WeakKeyDictionary()
+    def __init__(self):
 		self.name = 'Game State Main Menu Event'
 class GameStateGetControllersEvent(Event):
-	def __init__(self):
+    listeners = WeakKeyDictionary()
+    def __init__(self):
 		self.name = 'Game State Get Controllers Event'
 class GameStatePlayEvent(Event):
-	def __init__(self, levelMap):
+    listeners = WeakKeyDictionary()
+    def __init__(self, levelMap):
 		self.name = 'Game State Play Event'
 		self.levelMap = levelMap
 class GameStatePauseEvent(Event):
-	def __init__(self):
-		self.name = 'Game State Pause Event'
+    listeners = WeakKeyDictionary()
+    def __init__(self):
+        self.name = 'Game State Pause Event'
 gameStateEvents = [
 	GameStatePrepareEvent,
 	GameStateOpenEvent,
@@ -109,61 +142,36 @@ gameStateEvents = [
 ]
 #------------------------------------------------------------------------------
 class EventManager:
-	"""this object is responsible for coordinating most communication
-	between the Model, View, and Controller."""
-	def __init__(self):
-		from weakref import WeakKeyDictionary
-		self.allEventTypes = [
-			TickEvent,
-			QuitEvent,
-			MapBuiltEvent,
-
-			CreateCharactorViewEntityEvent,
-			CharactorMoveRequest,
-			CharactorMoveEvent,
-			SpriteStateChangeEvent,
-
-			KeyboardInputEvent,
-			MouseInputEvent,
-			GameContInputEvent,
-
-			GameStatePrepareEvent,
-			GameStateOpenEvent,
-			GameStateMainMenuEvent,
-			GameStateGetControllersEvent,
-			GameStatePlayEvent,
-			GameStatePauseEvent
-		]
-		for e in self.allEventTypes:
-			e.listeners = WeakKeyDictionary()
+    """this object is responsible for coordinating most communication
+    between the Model, View, and Controller."""
+    def __init__(self):
+        pass
 		#self.eventQueue = [] This was included in the original MVC tutorial. I don't see what it does..
 	#----------------------------------------------------------------------
-	def registerListener(self, listener, registeringObjectsEventTypes):
-		for e in self.allEventTypes:
-			for re in registeringObjectsEventTypes:
-				if e == re:
-					e.listeners[listener] = 1
+    def registerListener(self, listener, registeringObjectsEventTypes):
+        for re in registeringObjectsEventTypes:
+					re.listeners[listener] = 1
 
 	#----------------------------------------------------------------------
-	def unregisterListener(self, listener, registerEventTypes):
-		for e in self.allEventTypes:
-			if listener in e.listeners:
-				del e.listeners[ listener ]
+  def unregisterListener(self, listener, registerEventTypes):
+     for re in registerEventTypes:
+         if listener in re.listeners:
+             del re.listeners[ listener ]
 
 	#----------------------------------------------------------------------
-	def post(self, event):
-		'''
-		-	-	-	-	-	DEBUGING SECTION	-	-	-	-	-	-
-		'''
+  def post(self, event):
+    '''
+	  -	-	-	-	-	DEBUGING SECTION	-	-	-	-	-	-
+	 '''
 		#if not event.is_a(TickEvent):
 
-		if not event.is_a(TickEvent) and not event.is_a(inputEvents):
+  if not event.is_a(TickEvent) and not event.is_a(inputEvents):
 				debug("     Message: " + event.name)
 		#if event.is_a(GameContInputEvent):
 			#print(event.name, "     Player: ",event.joy," ",xboxContRef.xboxInt_moduleString[event.button],": ", event.value)
-		'''
-		-	-	-	-	-	NOTIFY()	-	-	-	-	-	-	-	-
-		'''
+  '''
+	-	-	-	-	-	NOTIFY()	-	-	-	-	-	-	-	-
+	'''
 		if hasattr(event, 'listeners'):
 			for listener in event.listeners:
 				#NOTE: If the weakref has died, it will be automatically removed, so we don't have to worry about it.
