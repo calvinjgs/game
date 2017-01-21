@@ -20,7 +20,7 @@ into the appropriate one.
                 self.sectors[i, j] = {}
         self.sector_width = sec_size[0]
         self.sector_height = sec_size[1]
-        self.evManager.registerListener(self,[])
+        self.evManager.registerListener(self,[ModelObjectMoveRequest, ModelObjectMoveEvent])
 
     
     #returns sector indices based on position
@@ -45,4 +45,13 @@ into the appropriate one.
         del self.sectors[i, j][str(id(m_o))]
     
     #move object from one old position to new position
-    #def move(self, m_o, new_pos):
+    def move(self, m_o, from_pos, to_pos):
+        i_0, j_0 = self.to_index(from_pos)
+        del self.sectors[i_0, j_0][str(id(m_o))]
+        i, j = self.to_index(from_pos)
+        self.sectors[i, j][str(id(m_o))] = m_o
+
+
+    def notify(event):
+        if Event.is_a(ModelObjectMoveEvent):
+            move(event.m_obj,event.from_pos, event.to_pos)
