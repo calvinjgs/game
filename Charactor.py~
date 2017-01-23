@@ -2,11 +2,11 @@ import pygame
 from pygame.locals import *
 
 from EventManager import *
-from MySprite import *
+from ModelEntity import *
+from ViewEntity import *
 
-
-#move similar methods into an "Entity" superclass, and MySprite super class
-class CharactorEntity:
+#move similar methods into an "Entity" superclass, and ViewEntity super class
+class CharactorModelEntity(ModelEntity):
 	STATE_INACTIVE = 0
 	STATE_ACTIVE = 1
 
@@ -17,13 +17,13 @@ class CharactorEntity:
 		self.evManager.registerListener(self,[GameStatePlayEvent,CharactorMoveRequest])
 		self.playerNumber = playerNumber
 		self.sector = None
-		self.state = CharactorEntity.STATE_INACTIVE
+		self.state = CharactorModelEntity.STATE_INACTIVE
 
 	def __str__(self):
 		return '<Charactor %s>' % id(self)
 
 	def move(self, direction):
-		if self.state == CharactorEntity.STATE_INACTIVE:
+		if self.state == CharactorModelEntity.STATE_INACTIVE:
 			return
 
 		if self.sector.movePossible( direction ):
@@ -34,9 +34,9 @@ class CharactorEntity:
 
 	def place(self, sector):
 		self.sector = sector
-		self.state = CharactorEntity.STATE_ACTIVE
+		self.state = CharactorModelEntity.STATE_ACTIVE
 
-		ev = CreateCharactorSpriteEvent(self, self.playerNumber)
+		ev = CreateCharactorViewEntityEvent(self, self.playerNumber)
 		self.evManager.post(ev)
 
 	def notify(self, event):
@@ -48,7 +48,7 @@ class CharactorEntity:
 			self.move(event.direction)
 
 #	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	Charactor Sprite
-class CharactorSprite(MySprite):
+class CharactorViewEntity(ViewEntity):
 	def __init__(self, evManager, entity, playerNumber, group=None,):
 		self.evManager = evManager
 		self.entity = entity
@@ -76,7 +76,7 @@ class CharactorSprite(MySprite):
 			'jump':SpriteState(self.spriteSheet, self.rect, 7, 5)
 		}
 		self.moveTo = None
-		#self.evManager.post(CharactorSpriteStateChange(self, 'run'))
+		#self.evManager.post(CharactorViewEntityStateChange(self, 'run'))
 
 	def update(self):
 		if self.moveTo:

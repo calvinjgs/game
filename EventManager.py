@@ -10,7 +10,7 @@ def debug(msg):
 class Event(object):
 	def __init__(self):
 		self.name = "Generic Event"
-
+	
 	def is_a(self, events):
 		if type(events) == list:
 			for event in events:
@@ -21,86 +21,96 @@ class Event(object):
 				return True
 
 class TickEvent(Event):
-	listeners = WeakKeyDictionary()
 	def __init__(self):
 		self.name = "CPU Tick Event"
+TickEvent.listeners = WeakKeyDictionary()
 
 class QuitEvent(Event):
-    listeners = WeakKeyDictionary()
-    def __init__(self):
-        self.name = "Program Quit Event"
+	def __init__(self):
+		self.name = "Program Quit Event"
+QuitEvent.listeners = WeakKeyDictionary()
 
 class MapBuiltEvent(Event):
-    listeners = WeakKeyDictionary()
-    def __init__(self, levelMap):
-        self.name = "Map Finished Building Event"
-        self.levelMap = levelMap
+	def __init__(self, levelMap):
+		self.listeners = WeakKeyDictionary()
+		self.name = "Map Built Event"
+		self.levelMap = levelMap
+MapBuiltEvent.listeners = WeakKeyDictionary()
 #	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-		
 class CreateCharactorViewEntityEvent(Event):
-    listeners = WeakKeyDictionary()
-    def __init__(self, entity, playerNumber):
-        self.name = "Charactor Placement Event"
-        self.entity = entity
-        self.playerNumber = playerNumber
+	def __init__(self, entity, playerNumber):
+		self.listeners = WeakKeyDictionary()
+		self.name = "Create Charactor ViewEntity Event"
+		self.entity = entity
+		self.playerNumber = playerNumber
+CreateCharactorViewEntityEvent.listeners = WeakKeyDictionary()
 
 class CharactorMoveRequest(Event):
-    listeners = WeakKeyDictionary()
-    def __init__(self, direction):
-        self.name = "Charactor Move Request"
-        self.direction = direction
+	def __init__(self, direction):
+		self.listeners = WeakKeyDictionary()
+		self.name = "Charactor Move Request"
+		self.direction = direction
+CharactorMoveRequest.listeners = WeakKeyDictionary()
 
 class CharactorMoveEvent(Event):
-    listeners = WeakKeyDictionary()
-    def __init__(self, entity):
-        self.name = "Charactor Move Event"
-        self.entity = entity
+	def __init__(self, entity):
+		self.listeners = WeakKeyDictionary()
+		self.name = "Charactor Move Event"
+		self.entity = entity
+CharactorMoveEvent.listeners = WeakKeyDictionary()
 
 class SpriteStateChangeEvent(Event):
-    listeners = WeakKeyDictionary()
-    def __init__(self, entity, state):
-        self.name = "Sprite State Change Event"
-        self.entity = entity
-        self.state = state
+	def __init__(self, entity, state):
+		self.listeners = WeakKeyDictionary()
+		self.name = "Sprite State Change Event"
+		self.entity = entity
+		self.state = state
+SpriteStateChangeEvent.listeners = WeakKeyDictionary()
 
 class ModelObjectMoveRequest(Event):
-    listeners = WeakKeyDictionary()
-    def __init__(self, obj, from_pos, to_pos):
-        self.name = "Model Object Move Request"
-        self.m_obj = m_obj
-        self.from_pos
-        self.to_pos
+	def __init__(self, obj, from_pos, to_pos):
+		self.listeners = WeakKeyDictionary()
+		self.name = "Model Object Move Request"
+		self.m_obj = m_obj
+		self.from_pos
+		self.to_pos
+ModelObjectMoveRequest.listeners = WeakKeyDictionary()
 
 class ModelObjectMoveEvent(Event):
-    listeners = WeakKeyDictionary()
-    def __init__(self, obj, from_pos, to_pos):
-        self.name = "Model Object Move Event"
-        self.m_obj = m_obj
-        self.from_pos
-        self.to_pos
-
+	def __init__(self, obj, from_pos, to_pos):
+		self.listeners = WeakKeyDictionary()
+		self.name = "Model Object Move Event"
+		self.m_obj = m_obj
+		self.from_pos
+		self.to_pos
+ModelObjectMoveEvent.listeners = WeakKeyDictionary()
 
 #	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	INPUTS
 class KeyboardInputEvent(Event):
-    listeners = WeakKeyDictionary()
-    def __init__(self, button, value):
-        self.name = "Keyboard Input Event"
-        self.button = button		
-        self.value = value
+	def __init__(self, button, value):
+		self.listeners = WeakKeyDictionary()
+		self.name = "Keyboard Input Event"
+		self.button = button		
+		self.value = value
+KeyboardInputEvent.listeners = WeakKeyDictionary()
 
 class MouseInputEvent(Event):
-    listeners = WeakKeyDictionary()
-    def __init__(self, button, value):
-        self.name = "Mouse Input Event"
-        self.button = button
-        self.value = value	
+	def __init__(self, button, value):
+		self.listeners = WeakKeyDictionary()
+		self.name = "Mouse Input Event"
+		self.button = button
+		self.value = value	
+MouseInputEvent.listeners = WeakKeyDictionary()
 
 class GameContInputEvent(Event):
-	listeners = WeakKeyDictionary()
 	def __init__(self, gamepadNumber, button, value):
+		self.listeners = WeakKeyDictionary()
 		self.name = "Game Controller Input Event"
 		self.gamepadNumber = gamepadNumber
 		self.button = button
 		self.value = value
+GameContInputEvent.listeners = WeakKeyDictionary()
+
 inputEvents = [
 	KeyboardInputEvent,
 	MouseInputEvent,
@@ -108,30 +118,42 @@ inputEvents = [
 ]
 #	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	GAME STATES
 class GameStatePrepareEvent(Event):
-    listeners = WeakKeyDictionary()
-    def __init__(self):
-        self.name = 'Game State Prepare Event'
+	listeners = WeakKeyDictionary()
+	def __init__(self):
+		self.name = 'Game State Prepare Event'
+GameStatePrepareEvent.listeners = WeakKeyDictionary()
+
 class GameStateOpenEvent(Event):
-    listeners = WeakKeyDictionary()
-    def __init__(self):
-        self.name = 'Game State Open Event'
+	listeners = WeakKeyDictionary()
+	def __init__(self):
+		self.name = 'Game State Open Event'
+GameStateOpenEvent.listeners = WeakKeyDictionary()
+
 class GameStateMainMenuEvent(Event):
-    listeners = WeakKeyDictionary()
-    def __init__(self):
-        self.name = 'Game State Main Menu Event'
+	listeners = WeakKeyDictionary()
+	def __init__(self):
+		self.name = 'Game State Main Menu Event'
+GameStateMainMenuEvent.listeners = WeakKeyDictionary()
+
 class GameStateGetControllersEvent(Event):
-    listeners = WeakKeyDictionary()
-    def __init__(self):
-        self.name = 'Game State Get Controllers Event'
+	listeners = WeakKeyDictionary()
+	def __init__(self):
+		self.name = 'Game State Get Controllers Event'
+GameStateGetControllersEvent.listeners = WeakKeyDictionary()
+
 class GameStatePlayEvent(Event):
-    listeners = WeakKeyDictionary()
-    def __init__(self, levelMap):
-        self.name = 'Game State Play Event'
-        self.levelMap = levelMap
+	listeners = WeakKeyDictionary()
+	def __init__(self, levelMap):
+		self.name = 'Game State Play Event'
+		self.levelMap = levelMap
+GameStatePlayEvent.listeners = WeakKeyDictionary()
+
 class GameStatePauseEvent(Event):
-    listeners = WeakKeyDictionary()
-    def __init__(self):
-        self.name = 'Game State Pause Event'
+	listeners = WeakKeyDictionary()
+	def __init__(self):
+		self.name = 'Game State Pause Event'
+GameStatePauseEvent.listeners = WeakKeyDictionary()
+
 gameStateEvents = [
 	GameStatePrepareEvent,
 	GameStateOpenEvent,

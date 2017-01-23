@@ -34,7 +34,7 @@ class KeyboardMouseGameContController:
 
 	#----------------------------------------------------------------------
 	def notify(self, event):
-		if event.is_a(TickEvent ):
+		if event.is_a(TickEvent):
 			#Handle Input Events
 			for event in pygame.event.get():
 				ev = None

@@ -2,11 +2,11 @@ import pygame
 from pygame.locals import *
 
 from EventManager import *
-from MySprite import *
+from EventManager import *
+from ModelEntity import *
 
-
-#move similar methods into an "Entity" superclass, and MySprite super class
-class <NAME>ModelObject(ModelObject):
+#move similar methods into an "Entity" superclass, and ViewEntity super class
+class <NAME>ModelEntity(ModelEntity):
 	STATE_INACTIVE = 0
 	STATE_ACTIVE = 1
 
@@ -21,7 +21,7 @@ class <NAME>ModelObject(ModelObject):
 		return '<SOMESPRITE %s>' % id(self)
 
 	def move(self, direction):
-		if self.state == CharactorEntity.STATE_INACTIVE:
+		if self.state == CharactorModelEntity.STATE_INACTIVE:
 			return
 
 		if self.sector.movePossible( direction ):
@@ -32,9 +32,9 @@ class <NAME>ModelObject(ModelObject):
 
 	def place(self, sector):
 		self.sector = sector
-		self.state = CharactorEntity.STATE_ACTIVE
+		self.state = CharactorModelEntity.STATE_ACTIVE
 
-		ev = CreateCharactorSpriteEvent(self, self.playerNumber)
+		ev = CreateCharactorViewEntityEvent(self, self.playerNumber)
 		self.evManager.post(ev)
 
 	def notify(self, event):
@@ -46,7 +46,7 @@ class <NAME>ModelObject(ModelObject):
 			self.move(event.direction)
 
 #	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	Charactor Sprite
-class <NAME>Sprite(MySprite):
+class <NAME>ViewEntity(ViewEntity):
 	def __init__(self, evManager, entity, playerNumber, group=None,):
 		self.evManager = evManager
 		self.entity = entity
@@ -74,7 +74,7 @@ class <NAME>Sprite(MySprite):
 			'jump':SpriteState(self.spriteSheet, self.rect, 7, 5)
 		}
 		self.moveTo = None
-		#self.evManager.post(CharactorSpriteStateChange(self, 'run'))
+		#self.evManager.post(CharactorViewEntityStateChange(self, 'run'))
 
 	def update(self):
 		if self.moveTo:

@@ -3,11 +3,11 @@ from pygame.locals import *
 
 from EventManager import *
 from SpriteSheet import *
-from MySprite import *
+from ViewEntity import *
 #	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	SpriteState
 
 #	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	Sector Sprite
-class SectorSprite(MySprite):
+class SectorSprite(ViewEntity):
 	def __init__(self, sector, group=None):
 		pygame.sprite.Sprite.__init__(self, group)
 		self.image = pygame.Surface((128,128), flags=pygame.SRCALPHA)
