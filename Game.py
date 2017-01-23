@@ -9,7 +9,7 @@ class Game:
 	def __init__(self, evManager):
 		self.evManager = evManager
 		#List every event for which this object listens
-		self.evManager.registerListener(self,[TickEvent, gameStateEvents])
+		self.evManager.registerListener(self,gameStateEvents + [TickEvent])
 		self.state = GameStatePrepareEvent()
 		self.evManager.post(self.state)
 		#self.state = Game.STATE_PREPARING
