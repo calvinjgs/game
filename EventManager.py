@@ -62,19 +62,19 @@ class SpriteStateChangeEvent(Event):
         self.entity = entity
         self.state = state
 
-class ModelObjectMoveRequest(Event):
+class ModelEntityMoveRequest(Event):
     listeners = WeakKeyDictionary()
-    def __init__(self, obj, from_pos, to_pos):
+    def __init__(self, entity, from_pos, to_pos):
         self.name = "Model Object Move Request"
-        self.m_obj = m_obj
+        self.m_entity = entity
         self.from_pos
         self.to_pos
 
-class ModelObjectMoveEvent(Event):
+class ModelEntitytMoveEvent(Event):
     listeners = WeakKeyDictionary()
-    def __init__(self, obj, from_pos, to_pos):
+    def __init__(self, entity, from_pos, to_pos):
         self.name = "Model Object Move Event"
-        self.m_obj = m_obj
+        self.m_entity = entity
         self.from_pos
         self.to_pos
 
