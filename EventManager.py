@@ -39,7 +39,7 @@ class MapBuiltEvent(Event):
 class CreateCharactorViewEntityEvent(Event):
     listeners = WeakKeyDictionary()
     def __init__(self, entity, playerNumber):
-        self.name = "Charactor Placement Event"
+        self.name = "Create Charactor View Entity Event"
         self.entity = entity
         self.playerNumber = playerNumber
 
@@ -61,7 +61,28 @@ class SpriteStateChangeEvent(Event):
         self.name = "Sprite State Change Event"
         self.entity = entity
         self.state = state
+        
 
+
+
+#	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	Jason's conflicting
+class CreateCreatureViewEntityEvent(Event):
+    listeners = WeakKeyDictionary()
+    def __init__(self, entity):
+        self.name = "Create Creature View Entity Event"
+        self.entity = entity
+
+class CreatureMoveRequest(Event):
+    listeners = WeakKeyDictionary()
+    def __init__(self, obj, deltaX, deltaY):
+        self.name = "Creatures Move Request"
+       
+class CreaureMoveEvent(Event):
+    listeners = WeakKeyDictionary()
+    def __init__(self, obj, deltaX, deltaY):
+        self.name = "Creatures Move Event"
+        
+#	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	Calvin's conflicting
 class ModelObjectMoveRequest(Event):
     listeners = WeakKeyDictionary()
     def __init__(self, obj, from_pos, to_pos):
@@ -77,6 +98,8 @@ class ModelObjectMoveEvent(Event):
         self.m_obj = m_obj
         self.from_pos
         self.to_pos
+
+
 
 
 #	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	INPUTS

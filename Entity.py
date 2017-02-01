@@ -3,24 +3,40 @@ from pygame.locals import *
 from EventManager import *
 from SpriteSheet import *
 
-
-
 #	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	Model Entity
 class ModelEntity:
-	pass
+	def __init__(self):
+		self.killedTargets	=	[] # [ (copyOfTarget, gameTime), ... ]
+		
+		self.x				=	0
+		self.y				=	0
+		self.health			=	100
+	
+	def move(self, deltaX, deltaY):
+		self.x += deltaX
+		self.y += deltaY
+		
+	def face(self, deg):
+		#self.evManager.post(CharactorMoveEvent(self))
+		#self.evManager.post(SpriteStateChangeEvent(self, 'idle'))
+		pass
+
+	def kill(self, targetObj, time):
+		self.killedTarget.insert((0, deepcopy(targetObj),time)) #does COPY need to be imported?
 
 #	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	View Entity
-class ViewEntity(pygame.sprite.Sprite):
 #Parent class for sprites
+class ViewEntity(pygame.sprite.Sprite):
+
 	def __init__(self):
 		self.imageWidth		=	50
 		self.imageHeight	=	100
 		self.width			=	100
 		self.height			=	200
-
+	
 	def getImage():
 		return self.states[self.state].getImage()
-
+	
 	def loadSpriteSheet(self, sheet, width, height):
 		self.spriteSheet = SpriteSheet(sheet)
 		#self.image = self.spriteSheet.image_at((0, 0, width, height))

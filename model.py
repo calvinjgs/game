@@ -27,7 +27,6 @@ into the appropriate one.
     def to_index(self, pos):
         i = pos[0]//self.sector_width
         j = pos[1]//self.sector_height
-        
         i = min(i, self.sectors.shape[0])
         i = max(i, 0)
         j = min(j, self.sectors.shape[1])
@@ -51,7 +50,11 @@ into the appropriate one.
         i, j = self.to_index(from_pos)
         self.sectors[i, j][str(id(m_o))] = m_o
 
-
     def notify(event):
+        if Event.is_a(ModelObjectMoveRequest):
+        	#ModelObjectMoveRequest
+        	#ev = ModelObjectMoveEvent(obj, from_pos, to_pos):
+        	#self.evManager.post(ev)
+        	
         if Event.is_a(ModelObjectMoveEvent):
-            move(event.m_obj,event.from_pos, event.to_pos)
+            move(event.m_obj, event.from_pos, event.to_pos)
