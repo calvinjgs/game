@@ -5,7 +5,7 @@ from EventManager import *
 import numpy as np
 
 
-class model:
+class Model:
     """The model class is a 2D arrray of dictionaries. The indices of the array
 correspond to grid locations. Each dictionary contains model_objects that have
 positions within the the grid location. If the object changes position such
@@ -13,8 +13,8 @@ that it lies outside that location, it will be removed from that dictionary and
 into the appropriate one. 
 """
 
-    def __init__(self, sec_shape, sec_size):
-        self.sectors = np.empty(sec_shape, dtype=dict)
+    def __init__(self, shape, sec_size):
+        self.sectors = np.empty(shape, dtype=dict)
         for j in range(sectors):
             for i in range(sectors[j]):
                 self.sectors[i, j] = {}
@@ -35,20 +35,20 @@ into the appropriate one.
         return (i, j)
 
     #inserts a model object into a sector based on its position
-    def insert(self, m_o):
-        i, j = self.to_index(m_o.pos)
-        self.sectors[i, j][str(id(m_o))] = m_o
+    def insert(self, m_e):
+        i, j = self.to_index(m_e.pos)
+        self.sectors[i, j][str(id(m_e))] = m_e
     #remove model object
-    def remove(self, m_o):
-        i, j = self.to_index(m_o.pos)
-        del self.sectors[i, j][str(id(m_o))]
+    def remove(self, m_e):
+        i, j = self.to_index(m_e.pos)
+        del self.sectors[i, j][str(id(m_e))]
     
     #move object from one old position to new position
-    def move(self, m_o, from_pos, to_pos):
+    def move(self, m_e, from_pos, to_pos):
         i_0, j_0 = self.to_index(from_pos)
-        del self.sectors[i_0, j_0][str(id(m_o))]
+        del self.sectors[i_0, j_0][str(id(m_e))]
         i, j = self.to_index(from_pos)
-        self.sectors[i, j][str(id(m_o))] = m_o
+        self.sectors[i, j][str(id(m_e))] = m_e
 
     def notify(event):
         if Event.is_a(ModelObjectMoveRequest):
@@ -58,3 +58,4 @@ into the appropriate one.
         	
         if Event.is_a(ModelObjectMoveEvent):
             move(event.m_obj, event.from_pos, event.to_pos)
+
