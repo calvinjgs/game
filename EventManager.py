@@ -28,7 +28,7 @@ class TickEvent(Event):
 class QuitEvent(Event):
     listeners = WeakKeyDictionary()
     def __init__(self):
-        self.name = "Program Quit Event"
+        self.name = "Program Quit Event"idle
 
 class MapBuiltEvent(Event):
     listeners = WeakKeyDictionary()
@@ -39,7 +39,7 @@ class MapBuiltEvent(Event):
 class CreateCharactorViewEntityEvent(Event):
     listeners = WeakKeyDictionary()
     def __init__(self, entity, playerNumber):
-        self.name = "Create Charactor View Entity Event"
+        self.name = "Charactor Placement Event"
         self.entity = entity
         self.playerNumber = playerNumber
 
@@ -63,14 +63,10 @@ class SpriteStateChangeEvent(Event):
         self.state = state
         
 
-#	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	Jason's conflicting
-class CreateCreatureViewEntityEvent(Event):
-    listeners = WeakKeyDictionary()
-    def __init__(self, entity):
-        self.name = "Create Creature View Entity Event"
-        self.entity = entity
 
-class CreatureMoveRequest(Event):
+
+#	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	Jason's conflicting
+class CreaureMoveRequest(Event):
     listeners = WeakKeyDictionary()
     def __init__(self, obj, deltaX, deltaY):
         self.name = "Creatures Move Request"
@@ -81,20 +77,20 @@ class CreaureMoveEvent(Event):
         self.name = "Creatures Move Event"
         
 #	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	Calvin's conflicting
-class ModelEntityMoveRequest(Event):
+class ModelObjectMoveRequest(Event):
     listeners = WeakKeyDictionary()
-    def __init__(self, entity, from_pos, to_pos):
+    def __init__(self, obj, from_pos, to_pos):
         self.name = "Model Object Move Request"
-        self.m_entity = entity
+        self.m_obj = m_obj
         self.from_pos
         self.to_pos
 
-class ModelEntitytMoveEvent(Event):
+class ModelObjectMoveEvent(Event):
     listeners = WeakKeyDictionary()
-    def __init__(self, entity, from_pos, to_pos):
+    def __init__(self, obj, from_pos, to_pos):
         self.name = "Model Object Move Event"
-        self.m_entity = entity
-        self.from_pos
+        self.m_obj = m_obj
+        self.from_posg
         self.to_pos
 
 

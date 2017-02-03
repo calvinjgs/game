@@ -9,6 +9,7 @@ from pygame.locals import *
 from EventManager import *
 from Player import *
 from Map import *
+from Model import *
 from Thug import ThugModelEntity
 
 class Game:
@@ -45,5 +46,11 @@ class Game:
 	def notify(self, event):				
 		if event.is_a(gameStateEvents):
 			self.state = event
+			if(self.state.is_a(GameStateMainMenuEvent)):
+				pass
+				#self.model = Model(shape, sec_size) #CALVIN
+			if(self.state.is_a(GameStatePlayEvent)):
+				pass
+				#self.model = Model(shape, sec_size) #CALVIN 
 		
 
